@@ -286,13 +286,13 @@ namespace HoneyBear.HalClient.Unit.Tests
             var baseAddress = _fixture.Create<Uri>();
             var http = new HttpClient {BaseAddress = baseAddress};
             var sut = new HalClient(http);
-            sut.HttpClient.BaseAddress.Should().Be(baseAddress);
+            sut.Client.HttpClient.BaseAddress.Should().Be(baseAddress);
         }
 
         public void AssertThatDefaultHttpClientCanBeUsed()
         {
             var sut = new HalClient();
-            sut.HttpClient.BaseAddress.Should().BeNull("Because it hasn't been set.");
+            sut.Client.HttpClient.BaseAddress.Should().BeNull("Because it hasn't been set.");
         }
 
         public void AssertThatResolvingResourceThrowsExceptionWhenResourceNotNavigated()
