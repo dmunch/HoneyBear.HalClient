@@ -11,7 +11,7 @@ namespace HoneyBear.HalClient
         /// <summary>
         /// Makes a HTTP GET request to the default URI and stores the returned resource.
         /// </summary>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         public static IHalClient Root(this IHalClient client) =>
             client.Execute(string.Empty, uri => client.Client.GetAsync(uri));
 
@@ -20,14 +20,14 @@ namespace HoneyBear.HalClient
         /// </summary>
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="href">The URI to request.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         public static IHalClient Root(this IHalClient client, string href) =>
             client.Execute(href, uri => client.Client.GetAsync(uri));
 
         /// <summary>
         /// Makes a HTTP GET request to the default URI and stores the returned resource.
         /// </summary>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         public static Task<IHalClient> RootAsync(this Task<IHalClient> client) =>
             client.ExecuteAsync(string.Empty, (jsonClient, uri) => jsonClient.GetAsync(uri));
 
@@ -36,7 +36,7 @@ namespace HoneyBear.HalClient
         /// </summary>
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="href">The URI to request.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         public static Task<IHalClient> RootAsync(this IHalClient client, string href) =>
             client.ExecuteAsync(href, uri => client.Client.GetAsync(uri));
 

@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="rel">The link relation to follow.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static IHalClient Delete(this IHalClient client, string rel) => 
             client.Delete(rel, null, null);
@@ -23,7 +23,7 @@
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="rel">The link relation to follow.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static IHalClient Delete(this IHalClient client, string rel, string curie) => 
             client.Delete(rel, null, curie);
@@ -34,7 +34,7 @@
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="rel">The templated link relation to follow.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />
         public static IHalClient Delete(this IHalClient client, string rel, object parameters) => 
@@ -47,7 +47,7 @@
         /// <param name="rel">The templated link relation to follow.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />
         public static IHalClient Delete(this IHalClient client, string rel, object parameters, string curie)

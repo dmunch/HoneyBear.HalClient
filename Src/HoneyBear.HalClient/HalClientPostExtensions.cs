@@ -13,7 +13,7 @@
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="rel">The link relation to follow.</param>
         /// <param name="value">The payload to POST.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static IHalClient Post(this IHalClient client, string rel, object value) => 
             client.Post(rel, value, null, null);
@@ -25,7 +25,7 @@
         /// <param name="rel">The link relation to follow.</param>
         /// <param name="value">The payload to POST.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static IHalClient Post(this IHalClient client, string rel, object value, string curie) => 
             client.Post(rel, value, null, curie);
@@ -37,7 +37,7 @@
         /// <param name="rel">The templated link relation to follow.</param>
         /// <param name="value">The payload to POST.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />
         public static IHalClient Post(this IHalClient client, string rel, object value, object parameters) => 
@@ -50,7 +50,7 @@
         /// <param name="value">The payload to POST.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <param name="client">The instance of the client used for the request.</param>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />

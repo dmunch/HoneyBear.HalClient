@@ -14,7 +14,7 @@ namespace HoneyBear.HalClient
         /// </summary>
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="rel">The link relation to follow.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static IHalClient Get(this IHalClient client, string rel) =>
             client.Get(rel, null, null);
@@ -25,7 +25,7 @@ namespace HoneyBear.HalClient
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="rel">The link relation to follow.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static IHalClient Get(this IHalClient client, string rel, string curie) => 
             client.Get(rel, null, curie);
@@ -36,7 +36,7 @@ namespace HoneyBear.HalClient
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="rel">The templated link relation to follow.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />
         public static IHalClient Get(this IHalClient client, string rel, object parameters) => 
@@ -49,7 +49,7 @@ namespace HoneyBear.HalClient
         /// <param name="rel">The templated link relation to follow.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />
         public static IHalClient Get(this IHalClient client, string rel, object parameters, string curie)
@@ -72,7 +72,7 @@ namespace HoneyBear.HalClient
         /// <param name="client">The instance of the client used for the request.</param>
         /// <param name="resource">The current <see cref="IResource"/>.</param>
         /// <param name="rel">The link relation to follow.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static IHalClient Get(this IHalClient client, IResource resource, string rel) => 
             client.Get(resource, rel, null, null);
@@ -84,7 +84,7 @@ namespace HoneyBear.HalClient
         /// <param name="resource">The current <see cref="IResource"/>.</param>
         /// <param name="rel">The link relation to follow.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static IHalClient Get(this IHalClient client, IResource resource, string rel, string curie) => 
             client.Get(resource, rel, null, curie);
@@ -96,7 +96,7 @@ namespace HoneyBear.HalClient
         /// <param name="resource">The current <see cref="IResource"/>.</param>
         /// <param name="rel">The templated link relation to follow.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />
         public static IHalClient Get(this IHalClient client, IResource resource, string rel, object parameters) => 
@@ -110,7 +110,7 @@ namespace HoneyBear.HalClient
         /// <param name="rel">The templated link relation to follow.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />
         public static IHalClient Get(this IHalClient client, IResource resource, string rel, object parameters, string curie)
@@ -136,7 +136,7 @@ namespace HoneyBear.HalClient
         /// </summary>
         /// <param name="clientTask">The Task yielding then client when awaited.</param>
         /// <param name="rel">The link relation to follow.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         public static Task<IHalClient> GetAsync(this Task<IHalClient> clientTask, string rel) =>
             clientTask.GetAsync(rel, null, null);
@@ -148,7 +148,7 @@ namespace HoneyBear.HalClient
         /// <param name="rel">The templated link relation to follow.</param>
         /// <param name="parameters">An anonymous object containing the template parameters to apply.</param>
         /// <param name="curie">The curie of the link relation.</param>
-        /// <returns>The updated <see cref="IHalClient"/>.</returns>
+        /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
         /// <exception cref="FailedToResolveRelationship" />
         /// <exception cref="TemplateParametersAreRequired" />
         public static async Task<IHalClient> GetAsync(this Task<IHalClient> clientTask, string rel, object parameters, string curie)
