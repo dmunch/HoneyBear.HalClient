@@ -111,11 +111,9 @@ namespace HoneyBear.HalClient.Unit.Tests
                             .Items<Order>()
                             .First();
 
-                    sut
+                    return sut
                         .Get(order, "orderitem-query", HalClientTestContext.Curie)
                         .Get("orderitem", HalClientTestContext.Curie);
-
-                    return sut;
                 };
             _context.Act(act);
 
@@ -140,11 +138,9 @@ namespace HoneyBear.HalClient.Unit.Tests
                             .Items<Order>()
                             .First();
 
-                    sut
+                    return sut
                         .Get(order, "orderitem-query", HalClientTestContext.Curie)
                         .Get("orderitem", HalClientTestContext.Curie);
-
-                    return sut;
                 };
             _context.Act(act);
 

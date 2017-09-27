@@ -263,12 +263,12 @@ namespace HoneyBear.HalClient.Unit.Tests
 
         public void AssertThatResourceHasRelationship()
         {
-            _sut.Has("order-edit", Curie).Should().BeTrue("Resource should have relationship");
+            _result.Has("order-edit", Curie).Should().BeTrue("Resource should have relationship");
         }
 
         public void AssertThatResourceHasRelationshipWithoutCurie()
         {
-            _sut.Has("order-edit").Should().BeTrue("Resource should have relationship");
+            _result.Has("order-edit").Should().BeTrue("Resource should have relationship");
         }
 
         public void AssertThatResourceDoesNotHasRelationship()
