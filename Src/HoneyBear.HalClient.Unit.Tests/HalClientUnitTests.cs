@@ -3,6 +3,7 @@ using System.Linq;
 using HoneyBear.HalClient.Models;
 using HoneyBear.HalClient.Unit.Tests.ProxyResources;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace HoneyBear.HalClient.Unit.Tests
 {
@@ -28,6 +29,16 @@ namespace HoneyBear.HalClient.Unit.Tests
         }
 
         [Test]
+        public async Task Navigate_to_root_resource_async()
+        {
+            _context.ArrangeHomeResource();
+
+            await _context.ActAsync(sut => sut.RootAsync(HalClientTestContext.RootUri));
+
+            _context.AssertThatRootResourceIsPresent();
+        }
+
+        [Test]
         public void Navigate_to_single_resource()
         {
             _context
@@ -39,6 +50,22 @@ namespace HoneyBear.HalClient.Unit.Tests
                     .Root(HalClientTestContext.RootUri)
                     .Get("order", new {orderRef = _context.OrderRef}, HalClientTestContext.Curie);
             _context.Act(act);
+
+            _context.AssertThatSingleResourceIsPresent();
+        }
+
+        [Test]
+        public async Task Navigate_to_single_resource_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order", new { orderRef = _context.OrderRef }, HalClientTestContext.Curie);
+            await _context.ActAsync(act);
 
             _context.AssertThatSingleResourceIsPresent();
         }
@@ -61,6 +88,23 @@ namespace HoneyBear.HalClient.Unit.Tests
         }
 
         [Test]
+        public async Task Navigate_to_single_embedded_resource_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order", new { orderRef = _context.OrderRef }, HalClientTestContext.Curie)
+                    .GetAsync("orderitem", HalClientTestContext.Curie);
+            await _context.ActAsync(act);
+
+            _context.AssertThatSingleEmbeddedResourceIsPresent();
+        }
+
+        [Test]
         public void Navigate_to_paged_resource()
         {
             _context
@@ -72,6 +116,22 @@ namespace HoneyBear.HalClient.Unit.Tests
                     .Root(HalClientTestContext.RootUri)
                     .Get("order-queryby-user", new {userRef = HalClientTestContext.UserRef}, HalClientTestContext.Curie);
             _context.Act(act);
+
+            _context.AssertThatPagedResourceIsPresent();
+        }
+
+        [Test]
+        public async Task Navigate_to_paged_resource_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangePagedResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order-queryby-user", new { userRef = HalClientTestContext.UserRef }, HalClientTestContext.Curie);
+            await _context.ActAsync(act);
 
             _context.AssertThatPagedResourceIsPresent();
         }
@@ -89,6 +149,23 @@ namespace HoneyBear.HalClient.Unit.Tests
                     .Get("order-queryby-user", new {userRef = HalClientTestContext.UserRef}, HalClientTestContext.Curie)
                     .Get("order", HalClientTestContext.Curie);
             _context.Act(act);
+
+            _context.AssertThatEmbeddedPagedResourceIsPresent();
+        }
+
+        [Test]
+        public async Task Navigate_to_paged_embedded_resource_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangePagedResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order-queryby-user", new { userRef = HalClientTestContext.UserRef }, HalClientTestContext.Curie)
+                    .GetAsync("order", HalClientTestContext.Curie);
+            await _context.ActAsync(act);
 
             _context.AssertThatEmbeddedPagedResourceIsPresent();
         }
@@ -120,6 +197,36 @@ namespace HoneyBear.HalClient.Unit.Tests
             _context.AssertThatResourceArrayIsPresent();
         }
 
+#if false 
+        API issues here 
+        [Test]
+        public async Task Navigate_to_paged_embedded_resource_and_navigate_to_embedded_resource_array_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangePagedResourceWithEmbeddedArrayOfResources();
+
+            Func<IHalClient, Task<IHalClient>> act =
+                async sut =>
+                {
+                    var order =
+                        (await sut
+                            .RootAsync(HalClientTestContext.RootUri)
+                            .GetAsync("order-queryby-user", new { userRef = HalClientTestContext.UserRef }, HalClientTestContext.Curie)
+                            .GetAsync("order", HalClientTestContext.Curie)
+                            .ItemsAsync<Order>())
+                            .First();
+
+                    return await sut
+                        .GetAsync(order, "orderitem-query", HalClientTestContext.Curie)
+                        .GetAsync("orderitem", HalClientTestContext.Curie);
+                };
+            await _context.ActAsync(act);
+
+            _context.AssertThatResourceArrayIsPresent();
+        }
+#endif
+
         [Test]
         public void Navigate_to_paged_embedded_resource_and_navigate_to_linked_resource_array()
         {
@@ -147,6 +254,36 @@ namespace HoneyBear.HalClient.Unit.Tests
             _context.AssertThatResourceArrayIsPresent();
         }
 
+#if false
+        API issues here 
+        [Test]
+        public async Task Navigate_to_paged_embedded_resource_and_navigate_to_linked_resource_array_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangePagedResourceWithLinkedArrayOfResources();
+
+            Func<IHalClient, Task<IHalClient>> act =
+                async sut =>
+                {
+                    var order =
+                        (await sut
+                            .RootAsync(HalClientTestContext.RootUri)
+                            .GetAsync("order-queryby-user", new { userRef = HalClientTestContext.UserRef }, HalClientTestContext.Curie)
+                            .GetAsync("order", HalClientTestContext.Curie)
+                            .ItemsAsync<Order>())
+                            .First();
+
+                    return await sut
+                        .GetAsync(order, "orderitem-query", HalClientTestContext.Curie)
+                        .GetAsync("orderitem", HalClientTestContext.Curie);
+                };
+            await _context.ActAsync(act);
+
+            _context.AssertThatResourceArrayIsPresent();
+        }
+#endif
+
         [Test]
         public void Navigate_to_resource_with_JSON_attribute()
         {
@@ -159,6 +296,22 @@ namespace HoneyBear.HalClient.Unit.Tests
                     .Root(HalClientTestContext.RootUri)
                     .Get("resource-with-json-attribute", null, HalClientTestContext.Curie);
             _context.Act(act);
+
+            _context.AssertThatResourceWithJsonAttributeIsPresent();
+        }
+
+        [Test]
+        public async Task Navigate_to_resource_with_JSON_attribute_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangeResourceWithJsonAttribute();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("resource-with-json-attribute", null, HalClientTestContext.Curie);
+            await _context.ActAsync(act);
 
             _context.AssertThatResourceWithJsonAttributeIsPresent();
         }
@@ -475,6 +628,22 @@ namespace HoneyBear.HalClient.Unit.Tests
         }
 
         [Test]
+        public async Task Has_relationship_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order", new { orderRef = _context.OrderRef }, HalClientTestContext.Curie);
+            await _context.ActAsync(act);
+
+            _context.AssertThatResourceHasRelationship();
+        }
+
+        [Test]
         public void Has_relationship_without_curie()
         {
             _context
@@ -492,6 +661,23 @@ namespace HoneyBear.HalClient.Unit.Tests
         }
 
         [Test]
+        public async Task Has_relationship_without_curie_async()
+        {
+            _context
+                .ArrangeWithoutCurie()
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order", new { orderRef = _context.OrderRef });
+            await _context.ActAsync(act);
+
+            _context.AssertThatResourceHasRelationshipWithoutCurie();
+        }
+
+        [Test]
         public void Does_not_have_relationship()
         {
             _context
@@ -503,6 +689,22 @@ namespace HoneyBear.HalClient.Unit.Tests
                     .Root(HalClientTestContext.RootUri)
                     .Get("order", new {orderRef = _context.OrderRef}, HalClientTestContext.Curie);
             _context.Act(act);
+
+            _context.AssertThatResourceDoesNotHasRelationship();
+        }
+
+        [Test]
+        public async Task Does_not_have_relationship_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order", new { orderRef = _context.OrderRef }, HalClientTestContext.Curie);
+            await _context.ActAsync(act);
 
             _context.AssertThatResourceDoesNotHasRelationship();
         }
@@ -525,6 +727,23 @@ namespace HoneyBear.HalClient.Unit.Tests
         }
 
         [Test]
+        public async Task Does_not_have_relationship_without_curie_async()
+        {
+            _context
+                .ArrangeWithoutCurie()
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order", new { orderRef = _context.OrderRef });
+            await _context.ActAsync(act);
+
+            _context.AssertThatResourceDoesNotHasRelationshipWithoutCurie();
+        }
+
+        [Test]
         public void Navigate_to_single_resource_without_curie()
         {
             _context
@@ -537,6 +756,23 @@ namespace HoneyBear.HalClient.Unit.Tests
                     .Root(HalClientTestContext.RootUri)
                     .Get("order", new {orderRef = _context.OrderRef});
             _context.Act(act);
+
+            _context.AssertThatSingleResourceIsPresent();
+        }
+        
+        [Test]
+        public async Task Navigate_to_single_resource_without_curie_async()
+        {
+            _context
+                .ArrangeWithoutCurie()
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order", new { orderRef = _context.OrderRef });
+            await _context.ActAsync(act);
 
             _context.AssertThatSingleResourceIsPresent();
         }
@@ -554,6 +790,23 @@ namespace HoneyBear.HalClient.Unit.Tests
                     .Root(HalClientTestContext.RootUri)
                     .Get("order-query-all");
             _context.Act(act);
+
+            _context.AssertThatPagedResourceIsPresent();
+        }
+
+        [Test]
+        public async Task Navigate_to_default_paged_resource_without_curie_async()
+        {
+            _context
+                .ArrangeWithoutCurie()
+                .ArrangeHomeResource()
+                .ArrangeDefaultPagedResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order-query-all");
+            await _context.ActAsync(act);
 
             _context.AssertThatPagedResourceIsPresent();
         }
@@ -587,6 +840,22 @@ namespace HoneyBear.HalClient.Unit.Tests
         }
 
         [Test]
+        public async Task Navigate_to_default_home_resource_async()
+        {
+            _context
+                .ArrangeDefaultHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync()
+                    .GetAsync("order", new { orderRef = _context.OrderRef }, HalClientTestContext.Curie);
+            await _context.ActAsync(act);
+
+            _context.AssertThatSingleResourceIsPresent();
+        }
+
+        [Test]
         public void Throws_exception_when_template_parameters_are_not_passed()
         {
             _context
@@ -599,6 +868,21 @@ namespace HoneyBear.HalClient.Unit.Tests
                     .Get("order", HalClientTestContext.Curie);
 
             Assert.Throws<TemplateParametersAreRequired>(() => _context.Act(act));
+        }
+
+        [Test]
+        public void Throws_exception_when_template_parameters_are_not_passed_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("order", HalClientTestContext.Curie);
+
+            Assert.ThrowsAsync<TemplateParametersAreRequired>(() => _context.ActAsync(act));
         }
 
         [Test]
@@ -617,6 +901,21 @@ namespace HoneyBear.HalClient.Unit.Tests
         }
 
         [Test]
+        public void Throws_exception_when_relationship_does_not_exist_async()
+        {
+            _context
+                .ArrangeHomeResource()
+                .ArrangeSingleResource();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut
+                    .RootAsync(HalClientTestContext.RootUri)
+                    .GetAsync("I-do-not-exist", HalClientTestContext.Curie);
+
+            Assert.ThrowsAsync<FailedToResolveRelationship>(() => _context.ActAsync(act));
+        }
+
+        [Test]
         public void Resolving_resource_throws_an_exception_when_the_resource_has_not_been_navigated()
         {
             _context.AssertThatResolvingResourceThrowsExceptionWhenResourceNotNavigated();
@@ -631,6 +930,17 @@ namespace HoneyBear.HalClient.Unit.Tests
                 sut.Root(HalClientTestContext.RootUri);
 
             Assert.Throws<HttpRequestFailed>(() => _context.Act(act));
+        }
+
+        [Test]
+        public void Throws_exception_when_HTTP_request_is_unsuccessful_async()
+        {
+            _context.ArrangeFailedHomeRequest();
+
+            Func<IHalClient, Task<IHalClient>> act = sut =>
+                sut.RootAsync(HalClientTestContext.RootUri);
+
+            Assert.ThrowsAsync<HttpRequestFailed>(() => _context.ActAsync(act));
         }
     }
 }

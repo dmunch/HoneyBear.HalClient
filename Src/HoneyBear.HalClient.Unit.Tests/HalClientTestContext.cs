@@ -198,6 +198,11 @@ namespace HoneyBear.HalClient.Unit.Tests
             _result = act(_sut);
         }
 
+        public async Task ActAsync(Func<IHalClient, Task<IHalClient>> act)
+        {
+            _result = await act(_sut);
+        }
+
         public void AssertThatRootResourceIsPresent()
         {
             var resource = _result.Item<Version>().Data;

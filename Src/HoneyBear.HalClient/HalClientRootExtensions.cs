@@ -28,9 +28,9 @@ namespace HoneyBear.HalClient
         /// Makes a HTTP GET request to the default URI and stores the returned resource.
         /// </summary>
         /// <returns>A new instance of <see cref="IHalClient"/> with updated resources.</returns>
-        public static Task<IHalClient> RootAsync(this Task<IHalClient> client) =>
-            client.ExecuteAsync(string.Empty, (jsonClient, uri) => jsonClient.GetAsync(uri));
-
+        public static Task<IHalClient> RootAsync(this IHalClient client) =>
+            client.ExecuteAsync(string.Empty, uri => client.Client.GetAsync(uri));
+        
         /// <summary>
         /// Makes a HTTP GET request to the given URL and stores the returned resource.
         /// </summary>
