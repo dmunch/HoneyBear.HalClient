@@ -196,9 +196,7 @@ namespace HoneyBear.HalClient.Unit.Tests
 
             _context.AssertThatResourceArrayIsPresent();
         }
-
-#if false 
-        API issues here 
+ 
         [Test]
         public async Task Navigate_to_paged_embedded_resource_and_navigate_to_embedded_resource_array_async()
         {
@@ -225,7 +223,6 @@ namespace HoneyBear.HalClient.Unit.Tests
 
             _context.AssertThatResourceArrayIsPresent();
         }
-#endif
 
         [Test]
         public void Navigate_to_paged_embedded_resource_and_navigate_to_linked_resource_array()
@@ -254,8 +251,6 @@ namespace HoneyBear.HalClient.Unit.Tests
             _context.AssertThatResourceArrayIsPresent();
         }
 
-#if false
-        API issues here 
         [Test]
         public async Task Navigate_to_paged_embedded_resource_and_navigate_to_linked_resource_array_async()
         {
@@ -282,7 +277,7 @@ namespace HoneyBear.HalClient.Unit.Tests
 
             _context.AssertThatResourceArrayIsPresent();
         }
-#endif
+
 
         [Test]
         public void Navigate_to_resource_with_JSON_attribute()

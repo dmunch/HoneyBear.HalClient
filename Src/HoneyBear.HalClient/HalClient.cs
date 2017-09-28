@@ -103,7 +103,7 @@ namespace HoneyBear.HalClient
         /// </summary>
         /// <param name="client">The client to copy.</param>
         /// <param name="current">The new resources.</param>
-        public HalClient(IHalClient client, IEnumerable<IResource> current)
+        public HalClient(IHalClientBase client, IEnumerable<IResource> current)
         {
             _client = client.Client;
             _formatters = client.Formatters;

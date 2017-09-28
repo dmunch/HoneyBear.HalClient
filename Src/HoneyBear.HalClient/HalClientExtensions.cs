@@ -52,7 +52,7 @@ namespace HoneyBear.HalClient
             return await ExecuteAsync(client, uri, _uri => command(client.Client, _uri));
         }
 
-        public static async Task<IHalClient> ExecuteAsync(this IHalClient client, string uri, Func<string, Task<HttpResponseMessage>> command)
+        public static async Task<IHalClient> ExecuteAsync(this IHalClientBase client, string uri, Func<string, Task<HttpResponseMessage>> command)
         {
             var result = await command(uri);
 
@@ -79,7 +79,7 @@ namespace HoneyBear.HalClient
             return client.Execute(Construct(link, parameters), command);
         }
 
-        public static IHalClient Execute(this IHalClient client, string uri, Func<string, Task<HttpResponseMessage>> command)
+        public static IHalClient Execute(this IHalClientBase client, string uri, Func<string, Task<HttpResponseMessage>> command)
         {
             var result = command(uri).Result;
 
